@@ -1,16 +1,9 @@
 ﻿@inherits LayoutComponentBase
+
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
+    @* Если вы хотите общее боковое меню для всех страниц, его можно вынести сюда.
+       Но в нашем ТЗ sidebar находится внутри Home.razor для гибкости. *@
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
+        @Body
     </main>
 </div>

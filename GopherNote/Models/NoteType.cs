@@ -1,6 +1,7 @@
 ﻿namespace GopherNote.Models;
 
-public class NoteType
+public enum NoteType
 {
-    
+    Text,
+    List
 }
