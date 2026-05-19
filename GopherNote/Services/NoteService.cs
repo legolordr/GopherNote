@@ -4,15 +4,9 @@ using Microsoft.JSInterop;
 
 namespace GopherNote.Services;
 
-public class NoteService
+public class NoteService(IJSRuntime _js)
 {
-    private readonly IJSRuntime _js;
     private const string StorageKey = "gopher_notes";
-
-    public NoteService(IJSRuntime js)
-    {
-        _js = js;
-    }
 
     public async Task<List<Note>> GetNotesAsync()
     {
