@@ -1,0 +1,8 @@
+﻿@* Отвечает за рендеринг верхней строчки с цитатой. *@
+<div class="top-quote">
+    <p><i>"@Quote"</i></p>
+</div>
+
+@code {
+    [Parameter] public string Quote { get; set; } = string.Empty;
+}
