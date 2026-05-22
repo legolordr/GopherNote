@@ -1,31 +1,130 @@
 ﻿@page "/"
-@using GopherNote.Components
-<!--Тестовое заполнение Home, чтобы видеть верстку-->
-<PageTitle>Home</PageTitle>
+@using GopherNote.Models
+@using GopherNote.Services
+@inject NoteService NoteService
+@inject QuoteService QuoteService
 
-<main class="content">
-    <div class="notes-grid">
-        <NoteCard Note="testNote" OnPinToggled="HandlePinToggled" OnEdit="HandleEdit"/>
-    </div>
-</main>
+<PageTitle>GopherNote</PageTitle>
 
-@code{
-        // Тестовая заметка
-        private Note testNote = new Note
+<TopQuote Quote="@CurrentQuote" />
+
+<div class="layout">
+    <aside class="sidebar">
+        <h2>GopherNote</h2>
+        <button class="btn-black" @onclick="CreateNewNote">Новая заметка</button>
+        
+        <div class="filters">
+            <h3>Фильтры</h3>
+            <input type="text" placeholder="Поиск по тегам..." @bind="tagFilter" @bind:event="oninput" />
+            
+            <select @bind="sortBy">
+                <option value="date_desc">Сначала новые</option>
+                <option value="date_asc">Сначала старые</option>
+            </select>
+        </div>
+    </aside>
+
+    <main class="content">
+        @if (isEditing)
         {
-            Title = "ZXC",
-            Content = "#Бурмалда, **Хаммммам**, *Турецкая Баня*",
-            IsPinned = true,
-            CreatedAt = DateTime.Now,
-        };
-        // Пустые обработчики
-        private void HandlePinToggled(Note note)
-        {
-            Console.WriteLine($"Pin toggled: {note.Title}");
+            <EditNote Note="currentEditingNote" OnSave="SaveNote" OnCancel="CancelEdit" OnDelete="DeleteNote" />
         }
-
-        private void HandleEdit(Note note)
+        else
         {
-            Console.WriteLine($"Edit: {note.Title}");
+            <div class="notes-grid">
+                @foreach (var note in FilteredAndSortedNotes)
+                {
+                    <NoteCard Note="note" OnPinToggled="SaveNote" OnEdit="StartEdit" />
+                }
+            </div>
         }
+    </main>
+</div>
+
+@code {
+    private List<Note> allNotes = new();
+    private string CurrentQuote = "";
+    private string tagFilter = "";
+    private string sortBy = "date_desc";
+    
+    private bool isEditing = false;
+    private Note currentEditingNote = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) // Выполняем только один раз при загрузке
+        {
+            try 
+            {
+                await LoadData();
+                StateHasChanged(); // Принудительно обновляем интерфейс, так как данные пришли после рендера
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка загрузки: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task LoadData()
+    {
+        allNotes = await NoteService.GetNotesAsync();
+        CurrentQuote = QuoteService.GetContextualQuote(allNotes);
+        StateHasChanged();
+    }
+
+    private IEnumerable<Note> FilteredAndSortedNotes
+    {
+        get
+        {
+            var filtered = allNotes.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(tagFilter))
+            {
+                // Добавлена проверка n.Tags != null
+                filtered = filtered.Where(n => n.Tags != null && 
+                                               n.Tags.Any(t => t.Contains(tagFilter, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            if (sortBy == "date_desc")
+            {
+                return filtered.OrderByDescending(n => n.IsPinned).ThenByDescending(n => n.CreatedAt);
+            }
+            else
+            {
+                return filtered.OrderByDescending(n => n.IsPinned).ThenBy(n => n.CreatedAt);
+            }
+        }
+    }
+
+    private void CreateNewNote()
+    {
+        currentEditingNote = new Note();
+        isEditing = true;
+    }
+
+    private void StartEdit(Note note)
+    {
+        currentEditingNote = note;
+        isEditing = true;
+    }
+
+    private async Task SaveNote(Note note)
+    {
+        await NoteService.SaveNoteAsync(note);
+        isEditing = false;
+        await LoadData();
+    }
+
+    private async Task DeleteNote(Note note)
+    {
+        await NoteService.DeleteNoteAsync(note.Id);
+        isEditing = false;
+        await LoadData();
+    }
+
+    private void CancelEdit()
+    {
+        isEditing = false;
+    }
 }
