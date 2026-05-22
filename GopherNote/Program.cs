@@ -12,5 +12,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 //Регистрируем сервисы
 builder.Services.AddScoped<NoteService>();
 builder.Services.AddScoped<QuoteService>(); // сервиc для контекстных цитат
+builder.Services.AddScoped<SpeechService>(); //connect SpeechService
 
 await builder.Build().RunAsync();
