@@ -1,0 +1,112 @@
+﻿@inject SpeechService SpeechService
+@implements IDisposable
+
+<div class="editor-container">
+    <div class="editor-header">
+        <input class="title-input" @bind="Note.Title" placeholder="Заголовок заметки..." />
+        <button class="pin-icon" @onclick="TogglePin">@(Note.IsPinned ? "★ Закреплено" : "☆ Закрепить")</button>
+    </div>
+
+    <div class="editor-toolbar">
+        <select @bind="Note.Type">
+            <option value="@NoteType.Text">Текст</option>
+            <option value="@NoteType.List">Список</option>
+        </select>
+        
+        <select @bind="Note.Color">
+            <option value="#ffffff">Белый</option>
+            <option value="#f5f5f5">Светло-серый</option>
+            <option value="#e0e0e0">Серый</option>
+        </select>
+
+        <button class="@(isRecording ? "btn-danger" : "btn-black")" @onclick="ToggleRecording">
+            @(isRecording ? "⏹ Остановить запись" : "🎙 Голосовой ввод")
+        </button>
+    </div>
+
+    <div class="editor-body">
+        <div class="textarea-wrapper" style="flex: 1; display: flex; flex-direction: column;">
+            <textarea class="md-editor" @bind="Note.Content" @bind:event="oninput" placeholder="Пишите здесь..."></textarea>
+            
+            @if (isRecording)
+            {
+                <div class="voice-interim">
+                    <i>🗣 @interimText</i>
+                </div>
+            }
+        </div>
+        
+        <div class="md-preview">
+            <MarkdownView Content="@Note.Content" />
+        </div>
+    </div>
+
+    <div class="editor-actions">
+        <button class="btn-black" @onclick="() => OnSave.InvokeAsync(Note)">Сохранить</button>
+        <button class="btn-outline" @onclick="() => OnCancel.InvokeAsync()">Отмена</button>
+        
+        @* Показываем кнопку «Удалить» только если у заметки уже есть ID (она не новая) *@
+        @if (Note.Id != Guid.Empty)
+        {
+            <button class="btn-danger" @onclick="() => OnDelete.InvokeAsync(Note)">Удалить</button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public Note Note { get; set; } = new();
+    [Parameter] public EventCallback<Note> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    
+    // ДОБАВИЛИ ПРОПУЩЕННЫЙ ПАРАМЕТР
+    [Parameter] public EventCallback<Note> OnDelete { get; set; } 
+    
+    private bool isRecording = false;
+    private string interimText = "Говорите...";
+
+    protected override void OnInitialized()
+    {
+        SpeechService.OnRecognized += HandleSpeechRecognized;
+        SpeechService.OnEnded += HandleSpeechEnded;
+    }
+
+    private async Task ToggleRecording()
+    {
+        if (isRecording)
+        {
+            await SpeechService.StopRecognitionAsync();
+            isRecording = false;
+        }
+        else
+        {
+            bool started = await SpeechService.StartRecognitionAsync("ru-RU");
+            if (started) isRecording = true;
+        }
+    }
+
+    private void HandleSpeechRecognized(string final, string interim)
+    {
+        interimText = string.IsNullOrWhiteSpace(interim) ? "Говорите..." : interim;
+
+        if (!string.IsNullOrWhiteSpace(final))
+        {
+            Note.Content += (string.IsNullOrWhiteSpace(Note.Content) ? "" : " ") + final;
+        }
+        
+        StateHasChanged();
+    }
+
+    private void HandleSpeechEnded()
+    {
+        isRecording = false;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        SpeechService.OnRecognized -= HandleSpeechRecognized;
+        SpeechService.OnEnded -= HandleSpeechEnded;
+    }
+
+    private void TogglePin() => Note.IsPinned = !Note.IsPinned;
+}
