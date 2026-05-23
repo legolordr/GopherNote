@@ -122,6 +122,7 @@
     border-radius: 4px;
     background: #fafafa;
     overflow-y: auto;
+    word-wrap: break-word;
 }
 .voice-interim {
     padding: 0.5rem;
