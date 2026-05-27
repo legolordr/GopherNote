@@ -4,15 +4,16 @@ using Microsoft.JSInterop;
 
 namespace GopherNote.Services;
 
-public class NoteService(IJSRuntime _js)
+public class NoteService(IJSRuntime js)
 {
     private const string StorageKey = "gopher_notes";
+
 
     public async Task<List<Note>> GetNotesAsync()
     {
         try
         {
-            var json = await _js.InvokeAsync<string>("localStorage.getItem", StorageKey);
+            var json = await js.InvokeAsync<string>("localStorage.getItem", StorageKey);
             if (string.IsNullOrWhiteSpace(json)) return new List<Note>();
 
             return JsonSerializer.Deserialize<List<Note>>(json) ?? new List<Note>();
@@ -39,7 +40,7 @@ public class NoteService(IJSRuntime _js)
 
         var json = JsonSerializer.Serialize(notes);
         // Вызываем JavaScript метод setItem
-        await _js.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+        await js.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
     }
 
     public async Task DeleteNoteAsync(Guid id)
@@ -51,7 +52,7 @@ public class NoteService(IJSRuntime _js)
         {
             notes.Remove(note);
             var json = JsonSerializer.Serialize(notes);
-            await _js.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+            await js.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
         }
     }
 }
