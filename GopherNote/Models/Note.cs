@@ -9,6 +9,6 @@ public class Note
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public bool IsPinned { get; set; } = false;
     public List<string> Tags { get; set; } = new List<string>();
-    // В рамках ч/б дизайна цвета будут градиентами серого
+
     public string Color { get; set; } = "#ffffff";
 }

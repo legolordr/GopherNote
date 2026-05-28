@@ -1,135 +1,197 @@
-﻿.editor-container{
+﻿/* Главный контейнер редактора */
+.editor-container {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem;
+    gap: 1.5rem;
+    padding: 2rem;
     background: white;
-    border: 1px solid gray;
-    border-radius: 8px;
+    border: 1px solid #eef2f6; /* Мягкая рамка как у карточек */
+    border-radius: 16px;       /* Плавное скругление */
     max-width: 900px;
-    margin: 0 auto;
+    margin: 20px auto;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03); /* Нежная тень */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-.title-input{
+
+/* Поле ввода заголовка */
+.title-input {
     flex: 1;
-    font-size: 1.5rem;
-    padding: 0.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
     border: none;
-    border-bottom: 2px solid gray;
-    transition: border-color 0.2s;
+    border-bottom: 2px solid #e2e8f0;
+    color: #0f172a; /* Глубокий темный цвет */
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
-.title-input:hover{
-    border-bottom-color: black;
+
+.title-input:focus, .title-input:hover {
+    outline: none;
+    border-bottom-color: #6366f1; /* Фиолетовый акцент при фокусе */
 }
-.pin-icon{
-    background: none;
-    border: 1px solid gray;
+
+/* Кнопка закрепления (Звезда в редакторе) */
+.pin-icon {
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     white-space: nowrap;
+    color: #f59e0b; /* Золотой цвет звезды */
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
 
-    transition: background 0.2s;
+.pin-icon:hover {
+    background: #f1f5f9;
+    color: #d97706;
+    transform: scale(1.02);
 }
-.pin-icon:hover{
-    background: gray;
-}
-.editor-toolbar{
+
+/* Панель инструментов */
+.editor-toolbar {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    align-items: center;
 }
-.editor-toolbar select{
-    padding: 0.5rem;
-    border: 1px solid gray;
-    border-radius: 4px;
+
+.editor-toolbar select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     background: white;
+    color: #475569;
     cursor: pointer;
-    transition: background 0.2s;
+    font-size: 0.9rem;
+    transition: all 0.2s;
 }
-.editor-toolbar select:hover{
-    background: gray;
+
+.editor-toolbar select:hover {
+    background: #f8f9fa;
+    border-color: #cbd5e1;
 }
-.btn-black{
-    background: black;
+
+/* Главная фиолетовая кнопка (бывшая btn-black) */
+.btn-black {
+    background: #6366f1; /* Фиолетовый цвет как на главной */
     color: white;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    transition: background 0.2s;
-    border: none
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s, transform 0.1s;
+    border: none;
 }
-.btn-black:hover{
-    background: gray;
+
+.btn-black:hover {
+    background: #4f46e5;
 }
-.btn-danger{
-    background: var(--bs-danger);
+
+.btn-black:active {
+    transform: scale(0.98);
+}
+
+/* Кнопка удаления */
+.btn-danger {
+    background: #ef4444; /* Более современный красный */
     color: white;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
     transition: background 0.2s;
-    border: none
+    border: none;
 }
-.btn-danger:hover{
-    background: #9b1000;
+
+.btn-danger:hover {
+    background: #dc2626;
 }
-.btn-outline{
+
+/* Второстепенная кнопка Отмена (бывшая btn-outline) */
+.btn-outline {
     background: transparent;
-    border: 1px solid black;;
-    color: black;
-    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    transition: background 0.2s;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s;
 }
-.btn-outline:hover{
-    background: gray;
+
+.btn-outline:hover {
+    background: #f8f9fa;
+    border-color: #94a3b8;
+    color: #0f172a;
 }
-.editor-actions{
+
+/* Контейнеры действий и тела */
+.editor-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
     justify-content: flex-end;
 }
-.editor-body{
+
+.editor-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
     min-height: 400px;
 }
-.textarea-wrapper{
+
+.textarea-wrapper {
     display: flex;
     flex: 1;
     flex-direction: column;
 }
-.md-editor{
+
+/* Поле ввода Markdown */
+.md-editor {
     flex: 1;
     width: 100%;
     padding: 1rem;
-    border: 1px solid gray;
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 1rem;
-    line-height: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: 'Fira Code', Consolas, Monaco, monospace;
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.6;
     resize: vertical;
-    min-height: 200px;
+    min-height: 250px;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
-.md-editor:focus{
+
+.md-editor:focus {
     outline: none;
-    border-color: black;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Легкое фиолетовое свечение */
 }
+
+/* Окно предпросмотра (Preview) */
 .md-preview {
     padding: 1rem;
-    border: 1px solid gray;
-    border-radius: 4px;
-    background: #fafafa;
+    border: 1px solid #eef2f6;
+    border-radius: 12px;
+    background: #f8f9fa; /* Мягкий фон как у вашей цитаты сверху */
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
     overflow-y: auto;
     word-wrap: break-word;
 }
+
+/* Голосовой ввод */
 .voice-interim {
-    padding: 0.5rem;
-    background: #fff3cd;
-    border: 1px solid #ffc107;
-    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
     margin-top: 0.5rem;
     font-style: italic;
-    color: #856404;
+    color: #b45309;
+    font-size: 0.9rem;
 }

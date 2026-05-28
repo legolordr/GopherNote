@@ -105,16 +105,47 @@
 
     private void StartEdit(Note note)
     {
-        currentEditingNote = note;
+        // Создаем копию объекта, чтобы редактор не ломал оригинал в списке
+        currentEditingNote = new Note
+        {
+            Id = note.Id,
+            Title = note.Title,
+            Content = note.Content,
+            IsPinned = note.IsPinned,
+            Color = note.Color, // Копируем цвет
+            Tags = note.Tags != null ? new List<string>(note.Tags) : new List<string>(),
+            CreatedAt = note.CreatedAt
+        };
         isEditing = true;
     }
 
     private async Task SaveNote(Note note)
     {
+        // 1. Сначала отправляем заметку в сервис, чтобы она сохранилась
         await NoteService.SaveNoteAsync(note);
+    
+        // 2. Ищем эту заметку в нашем локальном списке на экране
+        var index = allNotes.FindIndex(n => n.Id == note.Id);
+        if (index != -1)
+        {
+            // 3. Жестко перезаписываем её актуальным объектом из редактора (вместе с цветом!)
+            allNotes[index] = note;
+        }
+        else
+        {
+            // Если это была абсолютно новая заметка — добавляем её в список
+            allNotes.Add(note);
+        }
+
         isEditing = false;
-        await LoadData();
+
+        // 4. Пересчитываем цитату на основе обновленного списка
+        CurrentQuote = QuoteService.GetContextualQuote(allNotes);
+    
+        // 5. ГЛАВНОЕ: Принудительно обновляем интерфейс БЕЗ перезапуска LoadData()
+        StateHasChanged(); 
     }
+
 
     private async Task DeleteNote(Note note)
     {

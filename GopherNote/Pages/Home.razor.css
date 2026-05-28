@@ -1,48 +1,89 @@
-﻿
-.layout{
+﻿.layout {
     display: grid;
-    grid-template-columns: 300px auto;
-    gap: 2rem
+    grid-template-columns: 320px auto; /* Слегка увеличили ширину под красивую карточку */
+    gap: 2rem;
+    padding: 20px; /* Добавили отступ вокруг всего приложения */
 }
 
-.sidebar{
-    padding: 1.5rem;
-    border-right: 2px solid #dddddd;
+/* Обновленный дизайн боковой панели (Sidebar) */
+.sidebar {
+    padding: 2rem;
+    background-color: #ffffff; /* Чистый белый фон плашки */
+    border: 1px solid #eef2f6;   /* Тонкая пастельная рамка как у заметок */
+    border-radius: 16px;         /* Современное скругление углов */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 16px -6px rgba(0, 0, 0, 0.01); /* Очень мягкая тень */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    height: fit-content; /* Чтобы рамка не растягивалась до самого низа страницы */
 }
 
-.btn-black{
-    align-self: flex-start; /* Чтобы кнопка не растягивалась */
-    background: #6366f1; /* Стильный современный индиго/фиолетовый */
-    color: white;
-    border-radius: 8px; /* Скругление под стать карточке */
-    cursor: pointer;
-    padding: 0.6rem 1.2rem; /* Чуть просторнее */
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: background 0.2s ease, transform 0.1s ease;
-    border: none;
+/* Стили заголовков в сайдбаре */
+.sidebar h3, .sidebar .filters h3 {
+    color: #0f172a; /* Глубокий премиальный темный цвет */
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
 }
 
-.btn-black:hover{
-    background: #4f46e5;
+.filters {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Одинаковый красивый отступ между полями */
 }
 
-.notes-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
-    gap: 1.5rem;
-    padding: 1rem;
-}
-
-.filters{
-    margin-top: 2rem;
-}
-
+/* Красивые современные поля ввода и селекты */
 .filters input,
 .filters select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.65rem 1rem; /* Сделали поля чуть просторнее внутри */
+    border: 1px solid #e2e8f0; /* Мягкий цвет границ */
+    border-radius: 10px;        /* Скругление углов под стать кнопкам */
+    background-color: #f8f9fa; /* Слегка серый фон для полей (добавляет глубины) */
+    color: #334155;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Эффект при клике на фильтры */
+.filters input:focus,
+.filters select:focus {
+    outline: none;
+    background-color: #ffffff; /* При фокусе поле становится белым */
+    border-color: #6366f1;     /* Фиолетовая рамка в цвет кнопки */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Легкое свечение */
+}
+
+/* Кнопка "Новая заметка" */
+.btn-black {
+    align-self: stretch; /* Растягиваем кнопку на всю ширину сайдбара для уверенного вида */
+    text-align: center;
+    background: #6366f1;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0.75rem 1.2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s ease, transform 0.1s ease;
+    border: none;
     margin-bottom: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+}
+
+.btn-black:hover {
+    background: #4f46e5;
+}
+
+.btn-black:active {
+    transform: scale(0.98);
+}
+
+/* Сетка с заметками справа */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
