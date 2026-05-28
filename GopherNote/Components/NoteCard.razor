@@ -1,6 +1,9 @@
 ﻿@using GopherNote.Models
 
-<div class="note-card" style="background-color: @Note.Color;">
+<!-- СТРОКА 3: Мы убрали жесткую привязку к @Note.Color, если он пустой, и перенесли логику в CSS -->
+<div class="note-card @(Note.IsPinned ? "pinned-style" : "")">
+
+
     <div class="note-header">
         <span class="pin-icon" @onclick="TogglePin">@(Note.IsPinned ? "★" : "☆")</span>
         <h4>@Note.Title</h4>
@@ -18,7 +21,6 @@
         <button class="btn-edit" @onclick="EditNote">Редактировать</button>
     </div>
 </div>
-
 
 
 

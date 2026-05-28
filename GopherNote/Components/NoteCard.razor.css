@@ -1,12 +1,85 @@
-﻿.btn-edit{
-    background: black;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    transition: background 0.2s;
-    border: none
+﻿/* Контейнер всей заметки */
+/* Обычная заметка (по умолчанию белая) */
+.note-card {
+    background-color: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 360px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease; /* Плавная смена фона при клике */
 }
-.btn-edit:hover{
-    background: gray;
+
+
+.note-card.pinned-style {
+    background-color: #f1f5f9; /* Красивый благородный серый оттенок */
+    border-color: #e2e8f0;     /* Чуть более выраженная рамка для контраста */
+}
+
+
+
+
+/* Шапка карточки */
+.note-header {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Отступ между звездочкой и текстом */
+    margin-bottom: 8px; 
+}
+
+/* Иконка звездочки */
+/* Иконка звездочки в обычном состоянии */
+.pin-icon {
+    font-size: 1.15rem;
+    color: #f59e0b; /* Красивый золотисто-желтый цвет */
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease; /* Плавный переход */
+}
+
+/* Иконка звездочки при наведении мыши */
+.pin-icon:hover {
+    color: #d97706; /* Более насыщенный, глубокий янтарный цвет */
+    transform: scale(1.1); /* Легкое приятное увеличение при наведении */
+}
+
+/* Главный заголовок */
+.note-header h4 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #0f172a; /* Глубокий темно-синий/черный цвет (выглядит дорого) */
+    letter-spacing: -0.02em; /* Слегка сближенные буквы для стиля */
+}
+
+/* Блок с текстом заметки */
+.note-preview {
+    font-size: 0.95rem;
+    color: #64748b; /* Приятный матовый серый цвет для второстепенного текста */
+    line-height: 1.5; /* Комфортный межстрочный интервал */
+    margin: 0 0 24px 0; /* Увеличенный отступ снизу до кнопки */
+}
+
+/* Кнопка "Редактировать" (из вашего первого файла) */
+.btn-edit {
+    align-self: flex-start; /* Чтобы кнопка не растягивалась */
+    background: #6366f1; /* Стильный современный индиго/фиолетовый */
+    color: white;
+    border-radius: 8px; /* Скругление под стать карточке */
+    cursor: pointer;
+    padding: 0.6rem 1.2rem; /* Чуть просторнее */
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s ease, transform 0.1s ease;
+    border: none;
+}
+
+.btn-edit:hover {
+    background: #4f46e5; /* Более темный оттенок при наведении */
+}
+
+.btn-edit:active {
+    transform: scale(0.98); /* Легкий эффект нажатия */
 }

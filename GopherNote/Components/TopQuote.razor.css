@@ -1,0 +1,33 @@
+﻿/* Контейнер для цитаты */
+.top-quote {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    background-color: #f8f9fa; /* Светлый приятный фон */
+    border-left: 4px solid #007bff; /* Синяя акцентная линия слева */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Легкая тень */
+}
+
+/* Стили для текста цитаты */
+.top-quote p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #495057; /* Темно-серый цвет вместо черного */
+    line-height: 1.5;
+}
+
+/* Стили для кавычек вокруг текста */
+.top-quote p i::before {
+    content: "«";
+    margin-right: 2px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.top-quote p i::after {
+    content: "»";
+    margin-left: 2px;
+    color: #007bff;
+    font-weight: bold;
+}
