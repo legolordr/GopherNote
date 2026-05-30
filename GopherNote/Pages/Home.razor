@@ -6,17 +6,15 @@
 
 <PageTitle>GopherNote</PageTitle>
 
-<TopQuote Quote="@CurrentQuote" />
-
 <div class="layout">
     <aside class="sidebar">
         <h2 style="text-align: left">Notes</h2>
         <button class="btn-black" @onclick="CreateNewNote">Новая заметка</button>
-        
+
         <div class="filters">
             <h3>Фильтры</h3>
             <input type="text" placeholder="Поиск по тегам..." @bind="tagFilter" @bind:event="oninput" />
-            
+
             <select @bind="sortBy">
                 <option value="date_desc">Сначала новые</option>
                 <option value="date_asc">Сначала старые</option>
@@ -25,6 +23,8 @@
     </aside>
 
     <main class="content">
+        <TopQuote Quote="@CurrentQuote" />
+
         @if (isEditing)
         {
             <EditNote Note="currentEditingNote" OnSave="SaveNote" OnCancel="CancelEdit" OnDelete="DeleteNote" />
@@ -40,7 +40,6 @@
         }
     </main>
 </div>
-
 @code {
     private List<Note> allNotes = new();
     private string CurrentQuote = "";

@@ -1,33 +1,35 @@
-﻿/* Контейнер для цитаты */
+﻿/* Контейнер для цитаты - растягивается на всю ширину */
 .top-quote {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 15px 20px;
-    background-color: #f8f9fa; /* Светлый приятный фон */
-    border-left: 4px solid #007bff; /* Синяя акцентная линия слева */
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Легкая тень */
+    width: 100%;
+    margin: 0 0 24px 0;
+    padding: 20px 24px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #6366f1;
+    border-right: 4px solid #6366f1;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
 }
 
 /* Стили для текста цитаты */
 .top-quote p {
     margin: 0;
-    font-size: 1.1rem;
-    color: #495057; /* Темно-серый цвет вместо черного */
+    font-size: 1rem;
+    color: #334155;
     line-height: 1.5;
+    text-align: center;
 }
 
 /* Стили для кавычек вокруг текста */
 .top-quote p i::before {
     content: "«";
-    margin-right: 2px;
-    color: #007bff;
-    font-weight: bold;
+    margin-right: 4px;
+    color: #6366f1;
 }
 
 .top-quote p i::after {
     content: "»";
-    margin-left: 2px;
-    color: #007bff;
-    font-weight: bold;
+    margin-left: 4px;
+    color: #6366f1;
+    font-weight: 600;
 }
