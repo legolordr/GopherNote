@@ -1,45 +1,47 @@
-﻿/* wwwroot/css/theme.css */
-
-/* СВЕТЛАЯ ТЕМА (по умолчанию) */
+﻿/* СВЕТЛАЯ ТЕМА (по умолчанию) */
 :root {
     /* Фоны */
-    --bg-page: #ffffff;
     --bg-sidebar: #ffffff;
     --bg-card: #ffffff;
     --bg-input: #f8f9fa;
-    --bg-quote: #f8f9fa;
 
     /* Текст */
     --text-primary: #0f172a;
-    --text-secondary: #64748b;
+    --text-muted: #334155;
 
-    /* Границы и акценты */
+    /* Границы */
     --border-light: #eef2f6;
+    --border-medium: #e2e8f0;
+
+    /* Акценты */
     --accent: #6366f1;
     --accent-hover: #4f46e5;
+    --accent-light: rgba(99, 102, 241, 0.1);
 
     /* Тени */
-    --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.03);
+    --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 16px -6px rgba(0, 0, 0, 0.01);
 }
 
-/* ТЁМНАЯ ТЕМА */
+/* ТЁМНАЯ ТЕМА (добавляем класс dark-theme к html или body) */
 .dark-theme {
     /* Фоны */
-    --bg-page: #0f172a;
     --bg-sidebar: #1e293b;
     --bg-card: #1e293b;
     --bg-input: #334155;
-    --bg-quote: #1e293b;
 
     /* Текст */
     --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
+    --text-muted: #cbd5e1;
 
-    /* Границы и акценты */
+    /* Границы */
     --border-light: #334155;
+    --border-medium: #475569;
+
+    /* Акценты */
     --accent: #818cf8;
     --accent-hover: #6366f1;
+    --accent-light: rgba(129, 140, 248, 0.15);
 
-    /* Тени (для темной темы делаем тени темнее) */
-    --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    /* Тени */
+    --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 16px -6px rgba(0, 0, 0, 0.2);
 }
